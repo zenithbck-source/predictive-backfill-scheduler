@@ -12,12 +12,10 @@ def generate_jobs(n_jobs, seed):
         requested_walltime = random.randint(0, 500)
         actual_walltime = int(requested_walltime * random.uniform(0.4, 1.2))
 
-        jobs.append({"job_id":job_id, "submit_time":submit_time, "ncpus":ncpus, "requested_walltime":requested_walltime, "actual_walltime":actual_walltime})
+        jobs.append({"job_id":job_id, "submit_time":submit_time, "ncpus":ncpus, "requested_walltime":requested_walltime, "actual_walltime":actual_walltime, "state":"", "queue":"", "start_time":"", "end_time":""})
 
+    print(f"{len(jobs)} jobs have been generated.")
     return jobs
 
 if __name__ == "__main__":
     jobs = generate_jobs(2000, 42)
-    jobs = pd.DataFrame(jobs)
-    jobs.to_csv("jobs.csv", index=False)
-    print(f"All {len(jobs)} jobs have been saved to jobs.csv.")
