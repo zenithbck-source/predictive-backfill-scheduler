@@ -19,5 +19,5 @@ def generate_jobs(n_jobs, seed):
 if __name__ == "__main__":
     jobs = generate_jobs(2000, 42)
     jobs = pd.DataFrame(jobs)
-    jobs.to_csv("jobs.csv")
+    jobs.to_csv("jobs.csv", index=False)
     print(f"All {len(jobs)} jobs have been saved to jobs.csv.")
