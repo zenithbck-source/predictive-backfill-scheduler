@@ -1,6 +1,4 @@
-import pandas as pd
 from job_generator import generate_jobs
-
 
 def run_backfill_scheduler(jobs, total_cores, runtime_column):
     # Sort jobs by submission time.
@@ -179,7 +177,7 @@ def run_backfill_scheduler(jobs, total_cores, runtime_column):
 
 
 if __name__ == "__main__":
-    jobs = generate_jobs(300, 42)
+    jobs = generate_jobs(2000, 42)
 
     output = run_backfill_scheduler(
         jobs,
