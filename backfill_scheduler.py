@@ -77,9 +77,8 @@ def run_backfill_scheduler(jobs, total_cores, runtime_column):
                 head_job['state'] = 'S'
                 head_job['queue'] = queue_id
                 head_job['start_time'] = time
-                head_job['end_time'] = (
-                    time + head_job[runtime_column]
-                )
+                head_job['end_time'] = (time + head_job[runtime_column])
+                head_job['backfill'] = False
 
                 avail_cores -= head_job['ncpus']
                 queue_id += 1
@@ -89,7 +88,7 @@ def run_backfill_scheduler(jobs, total_cores, runtime_column):
 
                 progressed = True
 
-                print(f"{head_job['job_id']} is queued at {head_job['start_time']}.")
+                # print(f"{head_job['job_id']} is queued at {head_job['start_time']}.")
 
                 continue
 
@@ -142,6 +141,7 @@ def run_backfill_scheduler(jobs, total_cores, runtime_column):
                     candidate['queue'] = queue_id
                     candidate['start_time'] = time
                     candidate['end_time'] = candidate_end
+                    candidate['backfill'] = True
 
                     avail_cores -= candidate['ncpus']
                     queue_id += 1
@@ -152,7 +152,7 @@ def run_backfill_scheduler(jobs, total_cores, runtime_column):
                     backfilled = True
                     progressed = True
 
-                    print(f"{candidate['job_id']} is queued at {candidate['start_time']}. [BACKFILL]")
+                    # print(f"{candidate['job_id']} is queued at {candidate['start_time']}. [BACKFILL]")
 
                     # Re-evaluate the queue after every backfill.
                     break
@@ -167,11 +167,11 @@ def run_backfill_scheduler(jobs, total_cores, runtime_column):
         time += 1
 
     # -------------------------------------------------------------
-    # 5. Print any jobs that were not completed
+    # 5. Print any jobs that were not completed (debugging)
     # -------------------------------------------------------------
-    print(f"Still in jobs: {[j['job_id'] for j in jobs]}")
-    print(f"Still in queue: {[j['job_id'] for j in queue]}")
-    print(f"Still in running: {[j['job_id'] for j in running]}")
+    # print(f"Still in jobs: {[j['job_id'] for j in jobs]}")
+    # print(f"Still in queue: {[j['job_id'] for j in queue]}")
+    # print(f"Still in running: {[j['job_id'] for j in running]}")
 
     return schedule
 
