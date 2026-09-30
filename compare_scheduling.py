@@ -1,4 +1,5 @@
 import pandas as pd
+import copy
 from job_generator import generate_jobs
 from predict_runtimes import add_predicted_runtimes
 from backfill_scheduler import run_backfill_scheduler
@@ -8,17 +9,17 @@ jobs = generate_jobs(100, 30)
 jobs = add_predicted_runtimes(jobs)
 
 req_jobs = run_backfill_scheduler(
-    jobs,
+    copy.deepcopy(jobs),
     total_cores=16,
     runtime_column='requested_walltime'
     )
 act_jobs = run_backfill_scheduler(
-    jobs,
+    copy.deepcopy(jobs),
     total_cores=16,
     runtime_column='actual_walltime'
     )
 pred_jobs = run_backfill_scheduler(
-    jobs,
+    copy.deepcopy(jobs),
     total_cores=16,
     runtime_column='predicted_walltime'
     )
@@ -40,7 +41,7 @@ print(f"Requested: {req_avg_wait}")
 print(f"Actual:    {act_avg_wait}")
 print(f"Predicted: {pred_avg_wait}")
 
-print("\n=== Preview of Jobs ===")
-print(f"\nRequested:\n{req_jobs.head(5)}")
-print(f"\nActual:\n{act_jobs.head(5)}")
-print(f"\nPredicted:\n{pred_jobs.head(5)}")
+print("\n\n=== Preview of Jobs ===")
+print(f"\nRequested:\n{req_jobs.sort_values('job_id').sample(5, random_state=42)}")
+print(f"\nActual:\n{act_jobs.sort_values('job_id').sample(5, random_state=42)}")
+print(f"\nPredicted:\n{pred_jobs.sort_values('job_id').sample(5, random_state=42)}")
