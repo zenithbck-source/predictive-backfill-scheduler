@@ -32,7 +32,7 @@ def add_predicted_runtimes(jobs):
 
     # attach the prediction back onto each job dictionary
     for job, pred in zip(jobs, predictions):
-        job['predicted_runtime'] = float(pred)
+        job['predicted_walltime'] = float(pred)
 
     return jobs
 
