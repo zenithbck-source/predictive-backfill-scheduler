@@ -91,6 +91,8 @@ def run_backfill_scheduler(jobs, total_cores, runtime_column):
 
                 progressed = True
 
+                print(f"{head_job['job_id']} is queued at {head_job['start_time']}.")
+
                 continue
 
             # -----------------------------------------------------
@@ -152,6 +154,8 @@ def run_backfill_scheduler(jobs, total_cores, runtime_column):
                     backfilled = True
                     progressed = True
 
+                    print(f"{candidate['job_id']} is queued at {candidate['start_time']}. [BACKFILL]")
+
                     # Re-evaluate the queue after every backfill.
                     break
 
@@ -175,13 +179,10 @@ def run_backfill_scheduler(jobs, total_cores, runtime_column):
 
 
 if __name__ == "__main__":
-    jobs = generate_jobs(100, 42)
+    jobs = generate_jobs(300, 42)
 
     output = run_backfill_scheduler(
         jobs,
-        total_cores=32,
+        total_cores=16,
         runtime_column='actual_walltime'
     )
-
-    for job in output:
-        print(job)
